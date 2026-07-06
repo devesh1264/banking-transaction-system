@@ -44,3 +44,6 @@ userSchema.methods.comaprePassword = async function (password) {
 }
 
 const userModel = mongoose.model("user", userSchema)
+
+
+module.exports = userModel;
