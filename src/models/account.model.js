@@ -8,10 +8,13 @@ const accountSchema = new moongoose.Schema({
         index: true
     },
     status:{
+        type:String,
         enum:{
             values:["ACTIVE","FROZEN","CLOSED"],
-            message:"Status can be either ACTIVE, FROZEN or CLOSED "
-        }
+            message:"Status can be either ACTIVE, FROZEN or CLOSED ",
+           
+        },
+         default:"ACTIVE"
     },
     currency:{
         type:String,
