@@ -13,6 +13,12 @@ const transcationRoutes = require("./routes/transaction.routes")
 app.use(express.json())
 app.use(cookieParser())
 
+//dumy api
+app.get("/",(req,res)=>{
+    res.send("Ledger Service is UP and Running !!")
+})
+
+
 // Use Routes
 app.use("/api/auth",authRouter)
 app.use("/api/accounts",accountRouter)
