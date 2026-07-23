@@ -1,4 +1,4 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs")
 
 const userSchema = new mongoose.Schema({
@@ -20,6 +20,12 @@ const userSchema = new mongoose.Schema({
         type: String,
         required :[true,"Password is Required for creating an Account"],
         minlegth:[6,"password should be atleast 6 characters"],
+        select:false
+     },
+     systemUser:{
+        type:Boolean,
+        default: false,
+        immutable: true,
         select:false
      }
     },

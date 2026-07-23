@@ -1,8 +1,9 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
+const ledgerModel = require("./ledger.model")
 
-const accountSchema = new moongoose.Schema({
+const accountSchema = new mongoose.Schema({
     user:{
-        type: moongoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref:"user",
         required:[true,"Account must be associated with a user"],
         index: true
@@ -28,6 +29,47 @@ const accountSchema = new moongoose.Schema({
 // Compound Index-->Like When on more than 2 fields Index is created...(like here user id and status)
 accountSchema.index({user:1,status:1})
 
-const accountModel = moongose.model("account", accountSchema)
+accountSchema.methods.getBalance = async function(){
+    const balanceData = await ledgerModel.aggregate([
+        { $match:{account:this._id}},
+        {
+            $group:{
+                _id:null,
+                totalDebit:{
+                    $sum:{
+                        $cond: [
+                            { $eq:["$type","DEBIT"]},
+                            "$amount",
+                            0
+                        ]
+                    }
+                },
+                totalCredit:{
+                    $sum:{
+                        $cond: [
+                            { $eq:["$type","CREDIT"]},
+                            "$amount",
+                            0
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            $project:{
+                _id:0,
+                balance:{ $subtract:["$totalCredit","totalDebit"]}
+            }
+        }
+    ])
 
-model.exports = accountModel
+    if(balanceData.length === 0){
+        return 0
+    }
+
+    return balance[0].balance
+}
+
+const accountModel = mongoose.model("account", accountSchema)
+
+module.exports = accountModel

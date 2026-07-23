@@ -7,6 +7,7 @@ const cookieParser = require("cookie-parser")
 // Routes required
 const authRouter = require("./routes/auth.routes")
 const accountRouter = require("./routes/accounts.routes")
+const transcationRoutes = require("./routes/transaction.routes")
 
 // Middleware
 app.use(express.json())
@@ -15,5 +16,6 @@ app.use(cookieParser())
 // Use Routes
 app.use("/api/auth",authRouter)
 app.use("/api/accounts",accountRouter)
+app.use("/api/transactions",transcationRoutes)
 
 module.exports = app
