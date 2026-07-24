@@ -139,6 +139,8 @@ return res.status(201).json({
 
 }
 
+// Creating initial funds transaction
+
 async function createInitialFundsTransaction(req,res){
     const{toAccount,amount,idempotencyKey} = req.body
 if(!toAccount || !amount || !idempotencyKey){
