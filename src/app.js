@@ -4,6 +4,9 @@ const app = express()
 
 const cookieParser = require("cookie-parser")
 
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("./swagger/swagger");
+
 // Routes required
 const authRouter = require("./routes/auth.routes")
 const accountRouter = require("./routes/accounts.routes")
@@ -14,6 +17,10 @@ app.use(express.json())
 app.use(cookieParser())
 //
 app.use(express.static(path.join(__dirname, "../public")))
+
+//swagger
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 // api
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "../public/index.html"))

@@ -58,7 +58,7 @@ accountSchema.methods.getBalance = async function(){
         {
             $project:{
                 _id:0,
-                balance:{ $subtract:["$totalCredit","totalDebit"]}
+                balance:{ $subtract:["$totalCredit","$totalDebit"]}
             }
         }
     ])
@@ -67,7 +67,7 @@ accountSchema.methods.getBalance = async function(){
         return 0
     }
 
-    return balance[0].balance
+    return balanceData[0].balance
 }
 
 const accountModel = mongoose.model("account", accountSchema)

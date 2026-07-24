@@ -96,18 +96,18 @@ transaction = (await transactionModel.create([{
 const debitLedgerEntry = await ledgerModel.create([{
     account:fromAccount,
     amount:amount,
-    transaction:transaction._id,
+    transcation: transaction._id,
     type:"DEBIT"
 }],{session})
 
-await (() =>{
-    return new Promise((resolve)=> setTimeout(resolve,10*1000));
-})()
+//await (() =>{
+   // return new Promise((resolve)=> setTimeout(resolve,10*1000));
+// })()
 
 const creditLedgerEntry = await ledgerModel.create([{
-    account:toAccountAccount,
+    account:toAccount,
     amount:amount,
-    transaction:transaction._id,
+    transcation: transaction._id,
     type:"CREDIT"
 }],{session})
 
@@ -120,10 +120,12 @@ await transactionModel.findOneAndUpdate(
 
 await session.commitTransaction()
 session.endSession()
-}catch(error){
+}catch (error) {
+    console.error(error);
+
     return res.status(400).json({
-        message: "Transaction is Pending due to some issue,please retry after sometime.."
-    })
+        message: error.message
+    });
 }
 
 
@@ -159,7 +161,6 @@ if(!toUserAccount){
 }
 
 const fromUserAccount = await accountModel.findOne({
-    systemUser:true,
     user: req.user._id
 })
 
@@ -183,14 +184,14 @@ const transaction = new transactionModel({
 const debitLedgerEntry= await ledgerModel.create([{
     account:fromUserAccount._id,
     amount:amount,
-    transcation:transaction._id,
+    transcation: transaction._id,
     type:"DEBIT"
 }],{session})
 
 const creditLedgerEntry= await ledgerModel.create([{
-    account:fromUserAccount._id,
+    account: toUserAccount._id,
     amount:amount,
-    transcation:transaction._id,
+    transcation: transaction._id,
     type:"CREDIT"
 }],{session})
 
@@ -200,7 +201,7 @@ await session.commitTransaction()
 session.endSession()
 
 return res.status(201).json({
-    message:"Initial funds transaction ompleted successfully",
+    message:"Initial funds transaction completed successfully",
     transaction:transaction
 })
 
