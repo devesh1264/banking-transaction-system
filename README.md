@@ -15,8 +15,6 @@ implementing CRUD operations.
   **Live API**                        https://backend-ledger-3zv8.onrender.com
 
   **Swagger / OpenAPI Docs**          https://backend-ledger-3zv8.onrender.com/api-docs
-
-  **GitHub Repository**               https://github.com/devesh1264/banking-transaction-system
   ----------------------------------------------------------------------------------------------
 
 The deployed service exposes the backend API and an interactive Swagger
